@@ -24,8 +24,8 @@ if __name__ == "__main__":
         import traceback
         import logging
         logging.error(traceback.format_exc())
-        MSG = '\n{}'.format(traceback.format_exc())
-        lf.write(MSG)
+        msg = '\n{}'.format(traceback.format_exc())
+        lf.write(msg)
     finally:
         lf.to_file()
         print('Fin\nSe ha escrito el fichero log.txt con las incidencias')

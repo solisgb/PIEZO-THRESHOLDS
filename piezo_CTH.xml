@@ -3,57 +3,60 @@
 <!--
 Análisis de evoluciones piezométricas de pozos en relación con sus umbrales
 Las medidas deben tener bien identificados los NE y ND y las medidas tomadas de acuerdo a un criterio similar al establecido por la CHS en 2018
+El programa funciona típicamente con 2 tag umbrales que tienen el mismo valor de umbral/cod; pero también puede funcionar con cualquier número
+	de valores de umbral/cod
+Si hay 2 tag umbral con igual umbral/cod el select_data_param debe ser d
 -->
 	<project name="Vega Media 2018">
 		<db>C:\Users\solis\Documents\DB\ipasub97.mdb</db>
-        <pozos>
-            <pozo cod="273660821"/>
-            <pozo cod="273660822"/>
-            <pozo cod="273660823"/>
-            <pozo cod="273660824"/>
-            <pozo cod="273660825"/>
-            <pozo cod="273660826"/>
-            <pozo cod="273660827"/>
-            <pozo cod="273660828"/>
-            <pozo cod="273660829"/>
-            <pozo cod="273660830"/>
-            <pozo cod="273660833"/>
-            <pozo cod="273660834"/>
-            <pozo cod="273660835"/>
-            <pozo cod="273670312"/>
-            <pozo cod="273670313"/>
-            <pozo cod="273670314"/>
-            <pozo cod="273711056"/>
-            <pozo cod="273711057"/>
-            <pozo cod="273711061"/>
-            <pozo cod="273711093"/>
-            <pozo cod="273711094"/>
-            <pozo cod="273711095"/>
-            <pozo cod="273720409"/>
-            <pozo cod="273720410"/>
-            <pozo cod="273720411"/>
-            <pozo cod="273720413"/>
-            <pozo cod="273720414"/>
-        </pozos>
-        <umbral cod="CSA 26/5/2018" parametro="CNP ND"/>
-        <umbral cod="CSA 26/5/2018" parametro="CNP NE"/>
+		<pozo cod="273660821"/>
+		<pozo cod="273660822"/>
+		<pozo cod="273660823"/>
+		<pozo cod="273660824"/>
+		<pozo cod="273660825"/>
+		<pozo cod="273660826"/>
+		<pozo cod="273660827"/>
+		<pozo cod="273660828"/>
+		<pozo cod="273660829"/>
+		<pozo cod="273660830"/>
+		<pozo cod="273660833"/>
+		<pozo cod="273660834"/>
+		<pozo cod="273660835"/>
+		<pozo cod="273670312"/>
+		<pozo cod="273670313"/>
+		<pozo cod="273670314"/>
+		<pozo cod="273711056"/>
+		<pozo cod="273711057"/>
+		<pozo cod="273711061"/>
+		<pozo cod="273711093"/>
+		<pozo cod="273711094"/>
+		<pozo cod="273711095"/>
+		<pozo cod="273720409"/>
+		<pozo cod="273720410"/>
+		<pozo cod="273720411"/>
+		<pozo cod="273720413"/>
+		<pozo cod="273720414"/>
+        <umbral cod="CSA 26/5/2018" parametro="CNP ND">
+			<select_data_param>
+			SELECT IPA1.COD, IPA2.FECHA, [IPA1].[Z]-[IPA2].[PNP] AS CNP, IPA2.SITUACION
+			FROM IPA1 INNER JOIN IPA2 ON IPA1.COD = IPA2.COD
+			WHERE IPA1.COD=? AND IPA2.FECHA&gt;=? AND IPA2.FECHA&lt;=? AND IPA2.SITUACION='D'
+			ORDER BY IPA1.COD, IPA2.FECHA;
+			</select_data_param>
+		</umbral>
+        <umbral cod="CSA 26/5/2018" parametro="CNP NE">
+			<select_data_param>
+			SELECT IPA1.COD, IPA2.FECHA, [IPA1].[Z]-[IPA2].[PNP] AS CNP, IPA2.SITUACION
+			FROM IPA1 INNER JOIN IPA2 ON IPA1.COD = IPA2.COD
+			WHERE IPA1.COD=? AND IPA2.FECHA&gt;=? AND IPA2.FECHA&lt;=? AND IPA2.SITUACION&lt;&gt;'D'
+			ORDER BY IPA1.COD, IPA2.FECHA;
+			</select_data_param>
+		</umbral>
         <select_umbral>
         SELECT IPA1.COD, IPA1.TOPONIMIA, IPA1.X_UTM, IPA1.Y_UTM, IPA1.Z, IPA1_UMBRAL.COD_UMBRAL, IPA1_UMBRAL.PARAMETRO, IPA1_UMBRAL.UMBRAL
         FROM IPA1 INNER JOIN IPA1_UMBRAL ON IPA1.COD = IPA1_UMBRAL.COD
         WHERE IPA1.COD=? AND IPA1_UMBRAL.COD_UMBRAL=? AND IPA1_UMBRAL.PARAMETRO=?
         ORDER BY IPA1.COD;
         </select_umbral>
-        <select_ne>
-        SELECT IPA1.COD, IPA2.FECHA, [IPA1].[Z]-[IPA2].[PNP] AS CNP, IPA2.SITUACION
-        FROM IPA1 INNER JOIN IPA2 ON IPA1.COD = IPA2.COD
-        WHERE IPA1.COD=? AND IPA2.FECHA&gt;=? AND IPA2.FECHA&lt;=? AND IPA2.SITUACION&lt;&gt;'D'
-        ORDER BY IPA1.COD, IPA2.FECHA;
-        </select_ne>
-        <select_nd>
-        SELECT IPA1.COD, IPA2.FECHA, [IPA1].[Z]-[IPA2].[PNP] AS CNP, IPA2.SITUACION
-        FROM IPA1 INNER JOIN IPA2 ON IPA1.COD = IPA2.COD
-        WHERE IPA1.COD=? AND IPA2.FECHA&gt;=? AND IPA2.FECHA&lt;=? AND IPA2.SITUACION='D'
-        ORDER BY IPA1.COD, IPA2.FECHA;
-        </select_nd>
 	</project>
 </control_umbrales>
