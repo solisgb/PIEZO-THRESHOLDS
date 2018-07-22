@@ -18,3 +18,6 @@ dir_out = r'C:\Users\solis\Documents\work\VM\umbrales_out'
 
 # nombre del fichero de resultados
 file_out = 'VM_control_umbrales_piezo.txt'
+
+# grabar gráficos de diferencias (0 no, 1 sí)
+dif_xy = 1

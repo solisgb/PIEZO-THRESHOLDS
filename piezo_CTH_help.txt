@@ -1,19 +1,24 @@
+piezo_CTH piezometric series conpliance threshols
 
 FUNCIÓN
-Se realiza un análisis de la evolución temporal (piezométrica o de otro parametro) de los puntos en el espacio que tienen seres temporales de datos en relación con valores de umbrales expresados en las mismas unidades que la serie temporal
+Se realiza un análisis de la evolución temporal (piezométrica o de otro parametro) en los puntos del espacio que tienen seres temporales de datos en relación con valores de umbrales expresados en las mismas unidades que la serie temporal
 
 El programa se creó para analizar umbrales piezométricos de los pozos de sequía de la CHS en 2018
 
-El programa define unoo varios proyectos en el fichero piezo_CTH.xml. Las opciones específicas de una ejecución se definen mediante variables en el módulo piezo_CTH_parameters.py. Sepuede modificar el valor de la variable, pero no su nombre.
+El programa define uno varios proyectos en el fichero piezo_CTH.xml. Las opciones específicas de una ejecución se definen mediante variables en el módulo piezo_CTH_parameters.py. Sepuede modificar el valor de la variable, pero no su nombre.
 
 CONTENIDOS DEL FICHERO xml
 
-El tag db informe del nombre y situación de la base de datos
+Uno o varios proyectos -tag conpliance_thresholds/project-
 
-Para cada tag project existen uno o varios tag project/punto que mediante el atributo cod indican el código del punto a tratar 
+En cada proyecto:
 
-El tag select_umbral seleccciona los valores cod del punto, el cod del umbral y el cod del parámetro el valor del umbral y otros campos fijos del cod del punto
+El tag db informa del nombre y situación de la base de datos
+
+Uno o varios tag project/point que mediante el atributo cod indican el código del punto a tratar 
+
+El tag select_umbral seleccciona mediante los parámetros cod del punto, cod del umbral y cod del parámetro, el valor del umbral y otros campos fijos del cod del punto
 
 EL tag umbral tiene definidos mediante atributos el cod del umbral y el cod del parámetro que se va a analizar; el tag select_data_param obtiene los datos de la serie temporal del punto; estos datos deben ser homogéneos con el cod del parámetro que se va a tratar.
 
-Un proyecto puede tener más un tag umbral, para analizar a la vez varios parámetros relacionados, por ejemplo niveles piezométricos estáticos o dinámicos; depende de tí la coherencia de la información tratada. 
+Un proyecto puede tener más un tag umbral, para analizar a la vez varios parámetros relacionados, por ejemplo niveles piezométricos estáticos o dinámicos; depende del usuario la coherencia de la información tratada; pero solo un tag select_umbral

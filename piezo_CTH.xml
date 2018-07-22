@@ -1,42 +1,40 @@
 <?xml version="1.0"?>
-<control_umbrales>
+<conpliance_thresholds>
 <!--
 Análisis de evoluciones piezométricas de pozos en relación con sus umbrales
-Las medidas deben tener bien identificados los NE y ND y las medidas tomadas de acuerdo a un criterio similar al establecido por la CHS en 2018
-El programa funciona típicamente con 2 tag umbrales que tienen el mismo valor de umbral/cod; pero también puede funcionar con cualquier número
-	de valores de umbral/cod
-Si hay 2 tag umbral con igual umbral/cod el select_data_param debe ser d
+Ver piezo_CTH_help.txt para más aclaraciones
+threshold (Eng) -> umbral (Spa)
 -->
-	<project name="Vega Media 2018">
+	<project name="Vega Media del Segura CSA 2018">
 		<db>C:\Users\solis\Documents\DB\ipasub97.mdb</db>
-		<pozo cod="273660821"/>
-		<pozo cod="273660822"/>
-		<pozo cod="273660823"/>
-		<pozo cod="273660824"/>
-		<pozo cod="273660825"/>
-		<pozo cod="273660826"/>
-		<pozo cod="273660827"/>
-		<pozo cod="273660828"/>
-		<pozo cod="273660829"/>
-		<pozo cod="273660830"/>
-		<pozo cod="273660833"/>
-		<pozo cod="273660834"/>
-		<pozo cod="273660835"/>
-		<pozo cod="273670312"/>
-		<pozo cod="273670313"/>
-		<pozo cod="273670314"/>
-		<pozo cod="273711056"/>
-		<pozo cod="273711057"/>
-		<pozo cod="273711061"/>
-		<pozo cod="273711093"/>
-		<pozo cod="273711094"/>
-		<pozo cod="273711095"/>
-		<pozo cod="273720409"/>
-		<pozo cod="273720410"/>
-		<pozo cod="273720411"/>
-		<pozo cod="273720413"/>
-		<pozo cod="273720414"/>
-        <umbral cod="CSA 26/5/2018" parametro="CNP ND">
+		<point cod="273660821"/>
+		<point cod="273660822"/>
+		<point cod="273660823"/>
+		<point cod="273660824"/>
+		<point cod="273660825"/>
+		<point cod="273660826"/>
+		<point cod="273660827"/>
+		<point cod="273660828"/>
+		<point cod="273660829"/>
+		<point cod="273660830"/>
+		<point cod="273660833"/>
+		<point cod="273660834"/>
+		<point cod="273660835"/>
+		<point cod="273670312"/>
+		<point cod="273670313"/>
+		<point cod="273670314"/>
+		<point cod="273711056"/>
+		<point cod="273711057"/>
+		<point cod="273711061"/>
+		<point cod="273711093"/>
+		<point cod="273711094"/>
+		<point cod="273711095"/>
+		<point cod="273720409"/>
+		<point cod="273720410"/>
+		<point cod="273720411"/>
+		<point cod="273720413"/>
+		<point cod="273720414"/>
+        <umbral cod="CSA 26/5/2018" parametro="CNP ND" ylegend="m">
 			<select_data_param>
 			SELECT IPA1.COD, IPA2.FECHA, [IPA1].[Z]-[IPA2].[PNP] AS CNP, IPA2.SITUACION
 			FROM IPA1 INNER JOIN IPA2 ON IPA1.COD = IPA2.COD
@@ -44,7 +42,7 @@ Si hay 2 tag umbral con igual umbral/cod el select_data_param debe ser d
 			ORDER BY IPA1.COD, IPA2.FECHA;
 			</select_data_param>
 		</umbral>
-        <umbral cod="CSA 26/5/2018" parametro="CNP NE">
+        <umbral cod="CSA 26/5/2018" parametro="CNP NE" ylegend="m">
 			<select_data_param>
 			SELECT IPA1.COD, IPA2.FECHA, [IPA1].[Z]-[IPA2].[PNP] AS CNP, IPA2.SITUACION
 			FROM IPA1 INNER JOIN IPA2 ON IPA1.COD = IPA2.COD
@@ -59,4 +57,4 @@ Si hay 2 tag umbral con igual umbral/cod el select_data_param debe ser d
         ORDER BY IPA1.COD;
         </select_umbral>
 	</project>
-</control_umbrales>
+</conpliance_thresholds>

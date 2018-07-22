@@ -4,8 +4,8 @@ Created on Thu Jul 19 19:16:33 2018
 
 @author: solis
 
-Funciones que realizan en análisis de la evolución piezométrica de los
-pozos en relación a sus umbrales
+Funciones que realizan en análisis de una serie temporal (piezométrica) en
+puntos que tienen definidos umbrales de referencia
 """
 
 import log_file as lf
@@ -43,7 +43,10 @@ def select_project(filename=file_xml_ini):
 
 def control_umbrales(project):
     """
-    selecciona los datos
+    selecciona los datos y hace los análisis
+
+    input:
+        project: tag proyecto seleccionado
     """
     from os.path import join
     import pyodbc
@@ -52,26 +55,24 @@ def control_umbrales(project):
     import db_con_str
 
     db = project.find('db').text.strip()
-    tag_pozos = project.findall('pozos/pozo')
+    tag_pozos = project.findall('point')
     tag_umbrales = project.findall('umbral')
     cods_u = [tag_u.get('cod').strip() for tag_u in tag_umbrales]
     params_u = [tag_u.get('parametro').strip() for tag_u in tag_umbrales]
     selects_dp = [tag_u.find('select_data_param').text.strip()
                   for tag_u in tag_umbrales]
     select_umbral = project.find('select_umbral').text.strip()
-#    select_ne = project.find('select_ne').text.strip()
-#    select_nd = project.find('select_nd').text.strip()
 
     fecha1 = str_to_date(par.fecha1)
     fecha2 = str_to_date(par.fecha2)
 
-    headers = ['cod', 'toponimia', 'x m', 'y m', 'z  msnm']
+    headers = ['Id pozo', 'Nombre', 'X m', 'Y m', 'Z  msnm']
     for param_u in params_u:
-        headers.append('umbral ' + param_u)
-        headers.append('media ' + param_u)
-        headers.append('media - umbral ' + param_u)
-        headers.append('Últ. medida - umbral ' + param_u)
-    headers.append('Oscilación máx NP')
+        headers.append('umbral m' + param_u)
+        headers.append('media m' + param_u)
+        headers.append('media - umbral m' + param_u)
+        headers.append('Últ. medida - umbral m' + param_u)
+    headers.append('Oscilación máx NP m')
 
     fmt1 = '{}\t{}\t'+3*'{:0.2f}\t'
     # ojo, si se modifican las columnas media, media-umbral y Ultmed-umbral
@@ -152,3 +153,75 @@ def str_to_date(sdate: str):
         return date(int(ws[2]), int(ws[1]), int(ws[0]))
     except Exception as error:
         raise ValueError('La fecha {} no es válida'.format(sdate))
+
+
+def dif_grapfs(project):
+    """
+    selecciona los datos y hace los análisis
+
+    input:
+        project: tag proyecto seleccionado
+    """
+    from os.path import join
+    import numpy as np
+    import pyodbc
+    import piezo_CTH_parameters as par
+    import db_con_str
+    from piezo_CTH_XY import Time_series, XYt_1
+
+    db = project.find('db').text.strip()
+    tag_pozos = project.findall('point')
+    tag_umbrales = project.findall('umbral')
+    cods_u = [tag_u.get('cod').strip() for tag_u in tag_umbrales]
+    params_u = [tag_u.get('parametro').strip() for tag_u in tag_umbrales]
+    selects_dp = [tag_u.find('select_data_param').text.strip()
+                  for tag_u in tag_umbrales]
+    ylegends = [tag_u.get('ylegend').strip()
+                for tag_u in tag_umbrales]
+
+    select_umbral = project.find('select_umbral').text.strip()
+
+    fecha1 = str_to_date(par.fecha1)
+    fecha2 = str_to_date(par.fecha2)
+
+    con = pyodbc.connect(db_con_str.con_str(db))
+    cur = con.cursor()
+
+    print('gráficos xy')
+    for tag in tag_pozos:
+        cod = tag.get('cod').strip()
+        print(cod)
+        for cod_u, param_u, select_dp, ylegend in zip(cods_u, params_u,
+                                                      selects_dp,
+                                                      ylegends):
+            cur.execute(select_umbral, (cod, cod_u, param_u))
+            row = cur.fetchone()
+            if row is None:
+                raise ValueError('{} no tiene umbrales de {} {}'
+                                 .format(cod, cod_u, param_u))
+            toponimia = row.TOPONIMIA
+            umbral = row.UMBRAL
+
+            cur.execute(select_dp, (cod, fecha1, fecha2))
+            rows = [row for row in cur]
+            fechas = [row.FECHA for row in rows]
+            values = [row.CNP for row in rows]
+            values = np.array(values, dtype=FLOAT_PRECISION)
+            values = values - umbral
+
+            if len(fechas) < 2:
+                lf.write('{}; tiene < 2 datos {}, {} entre las fechas {} y {}'
+                         .format(cod, cod_u, param_u,
+                                 fecha1.strftime('%d/%m/%Y'),
+                                 fecha2.strftime('%d/%m/%Y')))
+                continue
+            s1 = Time_series(fechas, values, ylegend, '.')
+            stitle = '{} ({})\nDif. vs umbral {} ({})'.format(cod, toponimia,
+                                                              param_u, cod_u)
+            tmp = cod + '_' + param_u + '_' + cod_u + '.png'
+            tmp2 = tmp.replace(' ', '_')
+            file_name = tmp2.replace('/', '_')
+            dst = join(par.dir_out, file_name)
+            XYt_1([s1], stitle, ylegend, dst)
+
+    con.close()
