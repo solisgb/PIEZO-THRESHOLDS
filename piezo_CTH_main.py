@@ -30,6 +30,7 @@ if __name__ == "__main__":
         logging.error(traceback.format_exc())
         msg = '\n{}'.format(traceback.format_exc())
         lf.write(msg)
+        print('Se ha producido un error')
     finally:
         lf.to_file()
-        print('Fin\nSe ha escrito el fichero log.txt con las incidencias')
+        print('Se ha escrito el fichero log.txt con las incidencias')

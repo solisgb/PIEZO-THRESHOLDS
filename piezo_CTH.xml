@@ -3,10 +3,16 @@
 <!--
 Análisis de evoluciones piezométricas de pozos en relación con sus umbrales
 Ver piezo_CTH_help.txt para más aclaraciones
+En xml no se pueden utilizar los signos < 0 > fuera de marcar tags. En su lugar hay que escribir:
+    > &gt;
+    < &lt;
 threshold (Eng) -> umbral (Spa)
+casa: C:\Users\solis\Documents\DB\ipasub97.mdb
+pc oficina: C:\Users\solil\Documents\INT\BBDD\ipasub97.mdb
+servidor oficina: \\ESMUR0001\hidrogeologia\BD_IPASUB\ipasub97.mdb
 -->
 	<project name="Vega Media del Segura CSA 2018">
-		<db>C:\Users\solis\Documents\DB\ipasub97.mdb</db>
+		<db>\\ESMUR0001\hidrogeologia\BD_IPASUB\ipasub97.mdb</db>
 		<point cod="273660821"/>
 		<point cod="273660822"/>
 		<point cod="273660823"/>
@@ -46,7 +52,7 @@ threshold (Eng) -> umbral (Spa)
 			<select_data_param>
 			SELECT IPA1.COD, IPA2.FECHA, [IPA1].[Z]-[IPA2].[PNP] AS CNP, IPA2.SITUACION
 			FROM IPA1 INNER JOIN IPA2 ON IPA1.COD = IPA2.COD
-			WHERE IPA1.COD=? AND IPA2.FECHA&gt;=? AND IPA2.FECHA&lt;=? AND IPA2.SITUACION&lt;&gt;'D'
+			WHERE IPA1.COD=? AND IPA2.FECHA&gt;=? AND IPA2.FECHA&lt;=? AND IPA2.SITUACION='E'
 			ORDER BY IPA1.COD, IPA2.FECHA;
 			</select_data_param>
 		</umbral>

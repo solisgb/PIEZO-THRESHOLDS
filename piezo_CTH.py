@@ -157,7 +157,7 @@ def str_to_date(sdate: str):
 
 def dif_grapfs(project):
     """
-    selecciona los datos y hace los análisis
+    graba gráficos de diferencias (serie -piezométrica- - umbral)
 
     input:
         project: tag proyecto seleccionado
@@ -168,6 +168,8 @@ def dif_grapfs(project):
     import piezo_CTH_parameters as par
     import db_con_str
     from piezo_CTH_XY import Time_series, XYt_1
+
+    lf.write('\n Gráficos de diferencias')
 
     db = project.find('db').text.strip()
     tag_pozos = project.findall('point')
@@ -204,19 +206,20 @@ def dif_grapfs(project):
 
             cur.execute(select_dp, (cod, fecha1, fecha2))
             rows = [row for row in cur]
-            fechas = [row.FECHA for row in rows]
-            values = [row.CNP for row in rows]
-            values = np.array(values, dtype=FLOAT_PRECISION)
-            values = values - umbral
-
-            if len(fechas) < 2:
+            if len(rows) < 2:
                 lf.write('{}; tiene < 2 datos {}, {} entre las fechas {} y {}'
                          .format(cod, cod_u, param_u,
                                  fecha1.strftime('%d/%m/%Y'),
                                  fecha2.strftime('%d/%m/%Y')))
                 continue
+
+            fechas = [row.FECHA for row in rows]
+            values = [row.CNP for row in rows]
+            values = np.array(values, dtype=FLOAT_PRECISION)
+            values = values - umbral
+
             s1 = Time_series(fechas, values, ylegend, '.')
-            stitle = '{} ({})\nDif. vs umbral {} ({})'.format(cod, toponimia,
+            stitle = '{} ({})\nDiferencia serie vs umbral {} ({})'.format(cod, toponimia,
                                                               param_u, cod_u)
             tmp = cod + '_' + param_u + '_' + cod_u + '.png'
             tmp2 = tmp.replace(' ', '_')
