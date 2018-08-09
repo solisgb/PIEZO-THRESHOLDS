@@ -5,7 +5,7 @@ Created on Thu Jul 19 19:16:33 2018
 @author: solis
 
 Funciones que realizan en análisis de una serie temporal (piezométrica) en
-puntos que tienen definidos umbrales de referencia
+    puntos que tienen definidos umbrales de referencia
 """
 
 import log_file as lf
@@ -68,10 +68,11 @@ def control_umbrales(project):
 
     headers = ['Id pozo', 'Nombre', 'X m', 'Y m', 'Z  msnm']
     for param_u in params_u:
-        headers.append('umbral m' + param_u)
-        headers.append('media m' + param_u)
-        headers.append('media - umbral m' + param_u)
+        headers.append('Umbral m' + param_u)
+        headers.append('Media m' + param_u)
+        headers.append('Media - umbral m' + param_u)
         headers.append('Últ. medida - umbral m' + param_u)
+        headers.append('Índice' + param_u)
     headers.append('Oscilación máx NP m')
 
     fmt1 = '{}\t{}\t'+3*'{:0.2f}\t'
@@ -128,6 +129,14 @@ def control_umbrales(project):
                 fo.write(fmt2.format(mean, mean-umbral, mean-y1))
             else:
                 fo.write('\tNaN\tNaN\tNaN\t')
+
+            # clasificación del comportamiento piezométrico
+            if cnp.size > 2:
+                mean = np.mean(cnp[:-1] - umbral)
+                cnp_index = par.coef1 * mean + par.coef2 * (cnp[-1] - umbral)
+                fo.write('{:0.2f}\t'.format(cnp_index))
+            else:
+                fo.write('NaN\t')
 
             i += 1
             if i == len(cods_u):
@@ -219,8 +228,8 @@ def dif_grapfs(project):
             values = values - umbral
 
             s1 = Time_series(fechas, values, ylegend, '.')
-            stitle = '{} ({})\nDiferencia serie vs umbral {} ({})'.format(cod, toponimia,
-                                                              param_u, cod_u)
+            stitle = '{} ({})\nDiferencia serie vs umbral {} ({})' \
+                     .format(cod, toponimia, param_u, cod_u)
             tmp = cod + '_' + param_u + '_' + cod_u + '.png'
             tmp2 = tmp.replace(' ', '_')
             file_name = tmp2.replace('/', '_')

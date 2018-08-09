@@ -40,7 +40,7 @@ servidor oficina: \\ESMUR0001\hidrogeologia\BD_IPASUB\ipasub97.mdb
 		<point cod="273720411"/>
 		<point cod="273720413"/>
 		<point cod="273720414"/>
-        <umbral cod="CSA 26/5/2018" parametro="CNP ND" ylegend="m">
+        <umbral cod="CSA 26-5-2018" parametro="CNP ND" ylegend="m">
 			<select_data_param>
 			SELECT IPA1.COD, IPA2.FECHA, [IPA1].[Z]-[IPA2].[PNP] AS CNP, IPA2.SITUACION
 			FROM IPA1 INNER JOIN IPA2 ON IPA1.COD = IPA2.COD
@@ -48,7 +48,7 @@ servidor oficina: \\ESMUR0001\hidrogeologia\BD_IPASUB\ipasub97.mdb
 			ORDER BY IPA1.COD, IPA2.FECHA;
 			</select_data_param>
 		</umbral>
-        <umbral cod="CSA 26/5/2018" parametro="CNP NE" ylegend="m">
+        <umbral cod="CSA 26-5-2018" parametro="CNP NE" ylegend="m">
 			<select_data_param>
 			SELECT IPA1.COD, IPA2.FECHA, [IPA1].[Z]-[IPA2].[PNP] AS CNP, IPA2.SITUACION
 			FROM IPA1 INNER JOIN IPA2 ON IPA1.COD = IPA2.COD

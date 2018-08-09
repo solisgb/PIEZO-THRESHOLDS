@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-realiza cálculos sencillos sobre la evolución piezométrica de uno o
-varios pozos en relación sus umbrales piezométricos
-piezo_CTH: piezometry Conpliance ThresHolds
+Realiza cálculos sencillos sobre la evolución piezométrica de uno o
+    varios pozos en relación sus umbrales piezométricos
+    piezo_CTH: piezometry Conpliance ThresHolds
 """
 
 if __name__ == "__main__":
