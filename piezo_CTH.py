@@ -68,11 +68,11 @@ def control_umbrales(project):
 
     headers = ['Id pozo', 'Nombre', 'X m', 'Y m', 'Z  msnm']
     for param_u in params_u:
-        headers.append('Umbral m' + param_u)
-        headers.append('Media m' + param_u)
-        headers.append('Media - umbral m' + param_u)
-        headers.append('Últ. medida - umbral m' + param_u)
-        headers.append('Índice' + param_u)
+        headers.append('Umbral m ' + param_u)
+        headers.append('Media m ' + param_u)
+        headers.append('Media - umbral m ' + param_u)
+        headers.append('Últ. medida - umbral m ' + param_u)
+        headers.append('Índice ' + param_u)
     headers.append('Oscilación máx NP m')
 
     fmt1 = '{}\t{}\t'+3*'{:0.2f}\t'
@@ -132,8 +132,8 @@ def control_umbrales(project):
 
             # clasificación del comportamiento piezométrico
             if cnp.size > 2:
-                mean = np.mean(cnp[:-1] - umbral)
-                cnp_index = par.coef1 * mean + par.coef2 * (cnp[-1] - umbral)
+                median = np.median(cnp[:-1] - umbral)
+                cnp_index = par.coef1 * median + par.coef2 * (cnp[-1] - umbral)
                 fo.write('{:0.2f}\t'.format(cnp_index))
             else:
                 fo.write('NaN\t')
