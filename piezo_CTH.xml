@@ -63,4 +63,57 @@ servidor oficina: \\ESMUR0001\hidrogeologia\BD_IPASUB\ipasub97.mdb
         ORDER BY IPA1.COD;
         </select_umbral>
 	</project>
+ 
+ 	<project name="Vega Baja del Segura CSA 2018">
+		<db>\\ESMUR0001\hidrogeologia\BD_IPASUB\ipasub97.mdb</db>
+            <point cod="273630081"/>
+            <point cod="273630082"/>
+            <point cod="273640122"/>
+            <point cod="273640123"/>
+            <point cod="273640124"/>
+            <point cod="273640125"/>
+            <point cod="273640126"/>
+            <point cod="273640127"/>
+            <point cod="273640128"/>
+            <point cod="273670302"/>
+            <point cod="273670303"/>
+            <point cod="273670304"/>
+            <point cod="273670305"/>
+            <point cod="273670306"/>
+            <point cod="273670307"/>
+            <point cod="273670309"/>
+            <point cod="273670317"/>
+            <point cod="273680057"/>
+            <point cod="273680058"/>
+            <point cod="273680059"/>
+            <point cod="273680060"/>
+            <point cod="273680065"/>
+            <point cod="283610202"/>
+            <point cod="283610212"/>
+            <point cod="283610213"/>
+            <point cod="283610214"/>
+            <point cod="283620141"/>
+        <umbral cod="CSA sep-2018" parametro="CNP ND" selected2xy="1" ylegend="m">
+			<select_data_param>
+			SELECT IPA1.COD, IPA2.FECHA, [IPA1].[Z]-[IPA2].[PNP] AS CNP, IPA2.SITUACION
+			FROM IPA1 INNER JOIN IPA2 ON IPA1.COD = IPA2.COD
+			WHERE IPA1.COD=? AND IPA2.FECHA&gt;=? AND IPA2.FECHA&lt;=? AND IPA2.SITUACION='D'
+			ORDER BY IPA1.COD, IPA2.FECHA;
+			</select_data_param>
+		</umbral>
+        <umbral cod="CSA sep-2018" parametro="CNP NE" selected2xy="1" ylegend="m">
+			<select_data_param>
+			SELECT IPA1.COD, IPA2.FECHA, [IPA1].[Z]-[IPA2].[PNP] AS CNP, IPA2.SITUACION
+			FROM IPA1 INNER JOIN IPA2 ON IPA1.COD = IPA2.COD
+			WHERE IPA1.COD=? AND IPA2.FECHA&gt;=? AND IPA2.FECHA&lt;=? AND IPA2.SITUACION='E'
+			ORDER BY IPA1.COD, IPA2.FECHA;
+			</select_data_param>
+		</umbral>
+        <select_umbral>
+        SELECT IPA1.COD, IPA1.TOPONIMIA, IPA1.X_UTM, IPA1.Y_UTM, IPA1.Z, IPA1_UMBRAL.COD_UMBRAL, IPA1_UMBRAL.PARAMETRO, IPA1_UMBRAL.UMBRAL
+        FROM IPA1 INNER JOIN IPA1_UMBRAL ON IPA1.COD = IPA1_UMBRAL.COD
+        WHERE IPA1.COD=? AND IPA1_UMBRAL.COD_UMBRAL=? AND IPA1_UMBRAL.PARAMETRO=?
+        ORDER BY IPA1.COD;
+        </select_umbral>
+	</project>
 </conpliance_thresholds>

@@ -12,7 +12,7 @@ if __name__ == "__main__":
         from time import time
         import log_file as lf
         from piezo_CTH import select_project, control_umbrales, dif_grapfs
-        from piezo_CTH_parameters import dif_xy
+        from piezo_CTH_parameters import dif_xy, dir_out
 
         project = select_project()
         startTime = time()
@@ -21,6 +21,8 @@ if __name__ == "__main__":
 
         if dif_xy == 1:
             dif_grapfs(project)
+
+        print('resultados en {}'.format(dir_out))
 
         xtime = time() - startTime
         print('The script took {0}'.format(str(timedelta(seconds=xtime))))

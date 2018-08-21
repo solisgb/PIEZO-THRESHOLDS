@@ -19,10 +19,10 @@ coef2 = 1. - coef1
 # directorio de resultados
 # casa: C:\Users\solis\Documents\work\VM\umbrales_out
 # pc oficina: C:\Users\solil\Documents\INT\CHS\VM\out
-dir_out = r'\\Intsrv1008\sgd\00_Proyectos\42151\100_TRABAJO\100_10_DOC_COMUN\INFORMES_VM\20180809_INFORME_PIEZOMETRICO_SENCILLO\analisis_umbrales'
+dir_out = r'\\Intsrv1008\sgd\00_Proyectos\42151\100_TRABAJO\100_10_DOC_COMUN\INFORMES_VB\PROPUESTA_UMBRALES_PIEZO\EVOLPIEZO_VS_UMBRALES'
 
 # nombre del fichero de resultados
-file_out = '_VM_control_umbrales_piezo.txt'
+file_out = '_VB_evolpiezo_vs_umbrales.txt'
 
 # grabar gráficos de diferencias (0 no, 1 sí)
-dif_xy = 1
+dif_xy = 0
